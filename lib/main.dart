@@ -33,10 +33,18 @@ class NewsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    ColorScheme colorScheme = ColorScheme.fromSeed(
+        seedColor: Colors.indigo, brightness: Brightness.dark);
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'News App',
-      home: MainScreen(),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: colorScheme,
+        brightness: Brightness.dark,
+      ),
+      home: const MainScreen(),
     );
   }
 }
