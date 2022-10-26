@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:news_app_test/core/constatnts/api.dart';
+import 'package:news_app_test/core/constants/api.dart';
 import 'package:news_app_test/core/errors/exceptions.dart';
 import 'package:news_app_test/data/models/article_model.dart';
 
