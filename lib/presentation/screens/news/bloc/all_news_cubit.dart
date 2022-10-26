@@ -5,5 +5,6 @@ class AllNewsCubit extends NewsCubit {
   AllNewsCubit({
     required super.getArticles,
     required super.setFavorite,
+    required super.getFavorites,
   }) : super(newsType: NewsType.all);
 }

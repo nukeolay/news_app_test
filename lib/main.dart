@@ -19,7 +19,8 @@ void main() async {
           create: (context) => serviceLocator<TopNewsCubit>()..loadNews(),
         ),
         BlocProvider<FavoritesCubit>(
-          create: (context) => serviceLocator<FavoritesCubit>()..loadFavorites(),
+          create: (context) =>
+              serviceLocator<FavoritesCubit>()..loadFavorites(),
         ),
       ],
       child: const NewsApp(),
@@ -32,23 +33,9 @@ class NewsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ColorScheme colorScheme = ColorScheme.fromSeed(
-    //     seedColor: Colors.indigo, brightness: Brightness.dark);
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'News App',
-      // theme: ThemeData(
-      //   useMaterial3: true,
-      //   colorScheme: colorScheme,
-      //   brightness: Brightness.dark,
-      //   elevatedButtonTheme: ElevatedButtonThemeData(
-      //     style: ButtonStyle(
-      //       backgroundColor: MaterialStateProperty.all(colorScheme.primary),
-      //       foregroundColor: MaterialStateProperty.all(colorScheme.onSecondary),
-      //     ),
-      //   ),
-      // ),
-      // onGenerateRoute: Routes.onGenerateRoute,
       home: MainScreen(),
     );
   }

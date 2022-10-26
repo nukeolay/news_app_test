@@ -1,13 +1,10 @@
-import 'dart:developer';
-
 import 'package:news_app_test/domain/entities/article.dart';
 import 'package:news_app_test/domain/repositories/articles_repoitory.dart';
 import 'package:news_app_test/domain/repositories/favorite_repoitory.dart';
 
 class GetArticles {
   final ArticlesRepository _articlesRepository;
-  final FavoriteRepository
-      _favoriteRepository; // TODO проверять наличие статьи в избранном и возвращать ее
+  final FavoriteRepository _favoriteRepository;
 
   const GetArticles({
     required ArticlesRepository articlesRepository,
@@ -26,7 +23,9 @@ class GetArticles {
     final favoriteArticles = await _favoriteRepository.getFavoriteArticles();
     final List<Article> resultArticles = [];
     for (var remoteArticle in remoteArticles) {
-      if (favoriteArticles.contains(remoteArticle)) {
+      if (favoriteArticles
+              .indexWhere((element) => element.url == remoteArticle.url) !=
+          -1) {
         resultArticles.add(remoteArticle.copyWith(isFavorite: true));
       } else {
         resultArticles.add(remoteArticle);

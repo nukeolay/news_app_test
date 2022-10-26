@@ -24,6 +24,7 @@ Future<void> init() async {
     () => AllNewsCubit(
       getArticles: serviceLocator<GetArticles>(),
       setFavorite: serviceLocator<SetFavorite>(),
+      getFavorites: serviceLocator<GetFavorites>(),
     ),
   );
 
@@ -31,6 +32,7 @@ Future<void> init() async {
     () => TopNewsCubit(
       getArticles: serviceLocator<GetArticles>(),
       setFavorite: serviceLocator<SetFavorite>(),
+      getFavorites: serviceLocator<GetFavorites>(),
     ),
   );
 

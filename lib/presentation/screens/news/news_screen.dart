@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_test/presentation/common/widgets/news_list.dart';
+import 'package:news_app_test/presentation/screens/news/widgets/news_list.dart';
 import 'package:news_app_test/presentation/screens/news/bloc/all_news_cubit.dart';
 import 'package:news_app_test/presentation/screens/news/bloc/top_news_cubit.dart';
 

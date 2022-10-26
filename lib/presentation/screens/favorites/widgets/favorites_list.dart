@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,11 +30,11 @@ class _FavoritesListState extends State<FavoritesList> {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesCubit, FavoritesState>(
       builder: (context, state) {
-        log(state.toString());
-
         List<Article> articles = [];
         if (state is FavoritesLoading) {
-          return _loadingIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
         if (state is FavoritesLoaded) {
           articles = state.articles;
@@ -68,15 +67,6 @@ class _FavoritesListState extends State<FavoritesList> {
           itemCount: articles.length,
         );
       },
-    );
-  }
-
-  Widget _loadingIndicator() {
-    return const Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
     );
   }
 }

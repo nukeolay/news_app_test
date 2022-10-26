@@ -35,12 +35,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
             .map((article) => ArticleModel.fromJson(article))
             .toList();
       } else {
-        log(response.statusCode.toString());
         throw RemoteDataSourceException(
             errorMessage: 'bad response code: ${response.statusCode}');
       }
     } catch (error) {
-      log(error.toString());
       throw RemoteDataSourceException(errorMessage: '$error');
     }
   }

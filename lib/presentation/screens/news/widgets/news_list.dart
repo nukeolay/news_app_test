@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app_test/presentation/common/widgets/article_tile.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:news_app_test/presentation/screens/news/bloc/top_news_cubit.dart';
 import 'package:news_app_test/domain/entities/article.dart';
+import 'package:news_app_test/presentation/common/widgets/article_tile.dart';
+import 'package:news_app_test/presentation/screens/news/bloc/top_news_cubit.dart';
 import 'package:news_app_test/presentation/screens/news/bloc/all_news_cubit.dart';
 import 'package:news_app_test/presentation/screens/news/bloc/news_cubit.dart';
 import 'package:news_app_test/presentation/screens/news/bloc/news_state.dart';
@@ -22,6 +22,7 @@ class _NewsListState<T extends NewsCubit> extends State<NewsList> {
   final _scrollController = ScrollController();
   late final bool _isPullable;
   late final Timer _timer;
+  bool _isInit = true;
 
   @override
   void initState() {
@@ -32,6 +33,15 @@ class _NewsListState<T extends NewsCubit> extends State<NewsList> {
       });
     }
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      context.read<T>().refresh();
+      _isInit = false;
+    }
+    super.didChangeDependencies();
   }
 
   void _setupScrollController(BuildContext context) {
@@ -72,9 +82,11 @@ class _NewsListState<T extends NewsCubit> extends State<NewsList> {
         bool isLoading = false;
 
         if (state is NewsLoading && state.isInit) {
-          return _loadingIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else if (state is NewsLoading) {
-          articles = state.oldArticles;
+          articles = state.articles;
           isLoading = true;
         } else if (state is NewsLoaded) {
           articles = state.articles;
@@ -82,10 +94,10 @@ class _NewsListState<T extends NewsCubit> extends State<NewsList> {
           Future.delayed(Duration.zero, () {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Theme.of(context).errorColor,
-              content: Text(state.message),
+              content: Text(state.errorMessage),
             ));
           });
-          articles = state.oldArticles;
+          articles = state.articles;
         }
 
         return SmartRefresher(
@@ -98,31 +110,23 @@ class _NewsListState<T extends NewsCubit> extends State<NewsList> {
               if (index < articles.length) {
                 return ArticleTile(
                   article: articles[index],
-                  onSetFavorite: () => context.read<T>().setFavorite(
-                        articles[index],
-                      ), // TODO добавить вызов функции из кубита в зависимости от типа
+                  onSetFavorite: () =>
+                      context.read<T>().setFavorite(articles[index]),
                 );
               } else {
                 Timer(const Duration(milliseconds: 50), () {
                   _scrollController
                       .jumpTo(_scrollController.position.maxScrollExtent);
                 });
-                return _loadingIndicator();
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
             },
             itemCount: articles.length + (isLoading ? 1 : 0),
           ),
         );
       },
-    );
-  }
-
-  Widget _loadingIndicator() {
-    return const Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
     );
   }
 }

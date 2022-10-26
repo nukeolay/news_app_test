@@ -34,6 +34,7 @@ class Article extends Equatable {
         urlToImage,
         publishedAt,
         content,
+        isFavorite,
       ];
 
   Article copyWith({

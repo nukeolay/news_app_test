@@ -2,42 +2,47 @@ import 'package:equatable/equatable.dart';
 import 'package:news_app_test/domain/entities/article.dart';
 
 abstract class NewsState extends Equatable {
-  const NewsState();
+  final List<Article> articles;
+  const NewsState(this.articles);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [articles];
 }
 
 class NewsEmpty extends NewsState {
+  const NewsEmpty(super.articles);
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [articles];
 }
 
 class NewsLoading extends NewsState {
-  final List<Article> oldArticles;
   final bool isInit;
 
-  const NewsLoading(this.oldArticles, {this.isInit = false});
+  const NewsLoading({
+    required List<Article> articles,
+    this.isInit = false,
+  }) : super(articles);
 
   @override
-  List<Object> get props => [oldArticles];
+  List<Object> get props => [articles];
 }
 
 class NewsLoaded extends NewsState {
-  final List<Article> articles;
-
-  const NewsLoaded(this.articles);
+  const NewsLoaded(super.articles);
 
   @override
   List<Object> get props => [articles];
 }
 
 class NewsError extends NewsState {
-  final List<Article> oldArticles;
-  final String message;
+  final String errorMessage;
 
-  const NewsError({required this.message, required this.oldArticles});
+  const NewsError({
+    required List<Article> articles,
+    required this.errorMessage,
+  }) : super(articles);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [errorMessage, articles];
 }

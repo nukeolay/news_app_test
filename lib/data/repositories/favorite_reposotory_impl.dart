@@ -30,7 +30,6 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
       if (storedArticleIndex == -1) {
         // add new favorite article
         final favoriteArticle = ArticleModel(
-          // TODO исправить на copyWith
           isFavorite: true,
           author: newArticle.author,
           content: newArticle.content,
